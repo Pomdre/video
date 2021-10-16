@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'App\Http\Controllers\main@main', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('/', 'App\Http\Controllers\main@main', function () {
     return view('main');
 });
 
-Route::get('/view', 'App\Http\Controllers\main@video', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('/view', 'App\Http\Controllers\main@video', function () {
     return view('video');
 });
