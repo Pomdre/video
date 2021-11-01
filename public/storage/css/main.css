@@ -10,20 +10,3 @@ body {
 .static:hover {
     opacity:0;
 }
-
-
-.outer {
-    display: grid;
-    grid-template: 1fr / 1fr;
-    place-items: center;
-  }
-  .outer > * {
-    grid-column: 1 / 1;
-    grid-row: 1 / 1;
-  }
-  .outer .below {
-    z-index: 2;
-  }
-  .outer .top {
-    z-index: 1;
-  }
