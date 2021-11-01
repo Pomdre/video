@@ -20,8 +20,6 @@
     {{-- <a href="view?file={{$data->basename}}"><img class="img-fluid static" src="storage/static/{{$data->static}}"></a>
     <img class="img-fluid active" src="storage/gif/{{$data->gif}}"> --}}
     <img class="freezeframe" src="storage/gif/{{$data->gif}}" /> 
-    <p>Debug:</p>
-    {{ echo storage/gif/{{$data->gif}} }}
 </div>
 @endforeach
 <div style="margin-top: 10px;"></div>
