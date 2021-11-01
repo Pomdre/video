@@ -1,6 +1,5 @@
 /node_modules
 /public/hot
-/public/storage
 /storage/*.key
 /vendor
 .env
@@ -13,5 +12,6 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-.MOV
-.mp4
+public/storage/video/*
+public/storage/gif/*
+public/storage/static/*
