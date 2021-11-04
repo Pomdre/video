@@ -9,7 +9,7 @@ class main extends Controller
 {
 
 function main() {
-        $data = \DB::table('files')->get()->random(5);
+        $data = \DB::table('files')->get()->random(20);
         return view('main', ['static' => $data]);
         
 }
