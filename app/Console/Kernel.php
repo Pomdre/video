@@ -50,7 +50,7 @@ class Kernel extends ConsoleKernel
                 // Save contents to DB;
                 \DB::table('files')->updateorinsert([
                     'basename' => $basename[$i],
-                    'extension' => $extension[$i],
+                    
                     'filename' => $filename[$i],
                 ]);
                  $i++;
