@@ -38,7 +38,7 @@ class Kernel extends ConsoleKernel
              foreach($files as $file) {
                 // dd(pathinfo($file));
                 array_push($basename, pathinfo($file)['basename']);
-                array_push($extension, pathinfo($file)['extension']);
+                // array_push($extension, pathinfo($file)['extension']);
                 array_push($filename, pathinfo($file)['filename']);
              }
 
