@@ -18,6 +18,7 @@ npm install
 php artisan migrate --force
 chgrp -R www-data storage bootstrap/cache
 chmod -R ug+rwx storage bootstrap/cache
+sudo apt install gifsicle
 ```
 ## Tips
 Dersom det oppstår problemer prøv:

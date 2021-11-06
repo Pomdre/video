@@ -12,7 +12,7 @@
     <script type="text/javascript" src="https://unpkg.com/freezeframe@3.0.10/build/js/freezeframe.pkgd.min.js"></script>
   
 </head>
-<body>
+<body style="background-color: black">
 <div class="container">
   <div class="row">
 @foreach($static as $data)
@@ -20,7 +20,7 @@
     {{-- <a href="view?file={{$data->basename}}"><img class="img-fluid static" src="storage/static/{{$data->static}}"></a>
     <img class="img-fluid active" src="storage/gif/{{$data->gif}}"> --}}
     <img class="freezeframe freezeframe-responsive" src="storage/gif/{{$data->gif}}" />
-    <a href="view?file={{$data->basename}}">Vis</a>
+    <a style="margin-left: 100%" href="view?file={{$data->basename}}">Vis</a>
 </div>
 @endforeach
 <div style="margin-top: 10px;"></div>
