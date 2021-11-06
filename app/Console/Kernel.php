@@ -52,34 +52,35 @@ class Kernel extends ConsoleKernel
                     'basename' => $basename[$i],
                    // 'extension' => $extension[$i],
                     'filename' => $filename[$i],
+                    'gif' => $filename[$i] . '.gif',
                 ]);
                  $i++;
              }
         })->everyMinute();
 
 
-        $schedule->call(function () {
-            $result = \DB::table('files')->get();
-            foreach($result as $r){
-                $video = \DB::table('files')->where('basename', $r->basename)->get();
-                if ($video[0]->static == null) {
-                    \FFMpeg::fromDisk('video')
-                    ->open($video[0]->basename)
-                    ->getFrameFromSeconds(10)
-                    ->resize(1080, 608)
-                    ->export()
-                    ->onProgress(function ($percentage) {
-                        error_log("{$percentage}% transcoded");
-                    })
-                    ->toDisk('static')
-                    ->save($video[0]->filename . '.png');
-                    \DB::table('files')->where('basename', $r->basename)->update(['static' => $video[0]->filename . '.png', 'gif' => $video[0]->filename . '.gif']);
-                }
-                else {
-                error_log($video[0]->basename . ' <--Eksisterer');
-                }
-            }
-       })->everyMinute();
+    //     $schedule->call(function () {
+    //         $result = \DB::table('files')->get();
+    //         foreach($result as $r){
+    //             $video = \DB::table('files')->where('basename', $r->basename)->get();
+    //             if ($video[0]->static == null) {
+    //                 \FFMpeg::fromDisk('video')
+    //                 ->open($video[0]->basename)
+    //                 ->getFrameFromSeconds(10)
+    //                 ->resize(1080, 608)
+    //                 ->export()
+    //                 ->onProgress(function ($percentage) {
+    //                     error_log("{$percentage}% transcoded");
+    //                 })
+    //                 ->toDisk('static')
+    //                 ->save($video[0]->filename . '.png');
+    //                 \DB::table('files')->where('basename', $r->basename)->update(['static' => $video[0]->filename . '.png', 'gif' => $video[0]->filename . '.gif']);
+    //             }
+    //             else {
+    //             error_log($video[0]->basename . ' <--Eksisterer');
+    //             }
+    //         }
+    //    })->everyMinute();
         
     }
 

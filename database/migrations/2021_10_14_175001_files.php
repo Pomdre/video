@@ -18,7 +18,7 @@ class Files extends Migration
             $table->string('basename')->default(null);
             $table->string('extension')->default(null);
             $table->string('filename')->default(null);
-            $table->string('static')->nullable()->default(null);
+            // $table->string('static')->nullable()->default(null);
             $table->string('gif')->nullable()->default(null);
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
