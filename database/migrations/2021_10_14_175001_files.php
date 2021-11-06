@@ -15,11 +15,11 @@ class Files extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->string('basename')->default(null);
-            $table->string('extension')->default(null);
-            $table->string('filename')->default(null);
-            // $table->string('static')->nullable()->default(null);
-            $table->string('gif')->nullable()->default(null);
+            $table->string('basename')->nullable();
+            $table->string('extension')->nullable();
+            $table->string('filename')->nullable();
+            // $table->string('static')->nullable();
+            $table->string('gif')->nullable();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
