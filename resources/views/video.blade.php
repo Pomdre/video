@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Video Player</title>
 </head>
-<body>
+<body style="background-color: black">
 
 <video width="320" height="240" controls>
     <source src="storage/video/{{$video}}" type="video/mp4">
