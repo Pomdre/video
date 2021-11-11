@@ -16,7 +16,7 @@ for file in video/*; do
     # Sett sammen filer
     ffmpeg -i temp/$(basename "${file}")_map/first_$(basename "${file%%.*}").mp4 -i temp/$(basename "${file}")_map/mid_$(basename "${file%%.*}").mp4 -i temp/$(basename "${file}")_map/end_$(basename "${file%%.*}").mp4 -filter_complex "[0:0] [1:0] [2:0] concat=n=3:v=1:a=0" "temp/$(basename "${file}")_map/output_$(basename "${file%%.*}").mp4"
     # Lag GIF
-    ffmpeg -i temp/$(basename "${file}")_map/output_$(basename "${file%%.*}").mp4 -vf "fps=30,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 gif/$(basename "${file%%.*}").gif
+    ffmpeg -i temp/$(basename "${file}")_map/output_$(basename "${file%%.*}").mp4 -vf "setpts=PTS/20,fps=30,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 gif/$(basename "${file%%.*}").gif
     # Rydd
-    rm -r 'temp/$(basename "${file}")_map'
+    rm -r "temp/$(basename "${file}")_map"
 done
