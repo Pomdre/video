@@ -18,5 +18,5 @@ for file in video/*; do
     # Lag GIF
     ffmpeg -i temp/$(basename "${file}")_map/output_$(basename "${file%%.*}").mp4 -vf "setpts=PTS/20,fps=30,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 gif/$(basename "${file%%.*}").gif
     # Rydd
-    rm -r "temp/$(basename "${file}")_map"
-done
+    #rm -r "temp/$(basename "${file}")_map"
+done 
