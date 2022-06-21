@@ -26,6 +26,7 @@
 <div style="margin-top: 10px;"></div>
   </div>
 </div>
+<button><a href="./">Last inn på ny</a></button>
 <script>$(function() {
   ff = new freezeframe().freeze();
 })
