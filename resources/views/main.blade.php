@@ -19,7 +19,7 @@
    <div class="col-md-10">
     {{-- <a href="view?file={{$data->basename}}"><img class="img-fluid static" src="storage/static/{{$data->static}}"></a>
     <img class="img-fluid active" src="storage/gif/{{$data->gif}}"> --}}
-    <img class="freezeframe freezeframe-responsive" src="storage/gif/{{"$data->gif"}}" />
+    <img class="freezeframe freezeframe-responsive" src="storage/gif/{{"$data->basename"}}" />
     <a style="margin-left: 90%" href="view?file={{$data->basename}}">Vis</a>
 </div>
 @endforeach
