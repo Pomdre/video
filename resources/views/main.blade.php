@@ -15,6 +15,7 @@
 <body style="background-color: black">
 <div class="container">
   <a href="./sort"><button>Sort by votes</button></a>
+  <a href="./all"><button>All</button></a>
   <div class="row">
 @foreach($static as $data)
    <div class="col-md-10">

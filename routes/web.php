@@ -23,6 +23,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/sort', 'App\Http\Controll
     return view('sort');
 })->name('sort');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/all', 'App\Http\Controllers\main@all', function () {
+    return view('all');
+})->name('all');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/view', 'App\Http\Controllers\main@video', function () {
     return view('video');
 });

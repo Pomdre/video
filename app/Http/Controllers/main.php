@@ -18,6 +18,11 @@ function sort() {
     return view('sort', ['static' => $data]);   
 }
 
+function all() {
+    $data = \DB::table('files')->inRandomOrder()->get();
+    return view('all', ['static' => $data]);   
+}
+
 function video(Request $request) {
     $data = $request->input('file');
     $votes = \DB::table('files')

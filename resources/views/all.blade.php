@@ -14,8 +14,8 @@
 </head>
 <body style="background-color: black">
 <div class="container">
+  <a href="./"><button>Go Back</button></a>
   <div class="row">
-    <a href="./"><button>Go Back</button></a>
 @foreach($static as $data)
    <div class="col-md-10">
     {{-- <a href="view?file={{$data->basename}}"><img class="img-fluid static" src="storage/static/{{$data->static}}"></a>
@@ -27,7 +27,7 @@
 <div style="margin-top: 10px;"></div>
   </div>
 </div>
-<button><a href="./sort">Reolad site</a></button>
+<button><a href="./all">Reolad site</a></button>
 <script>$(function() {
   ff = new freezeframe().freeze();
 })
