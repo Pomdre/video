@@ -27,7 +27,7 @@ function video(Request $request) {
     $data = $request->input('file');
     $votes = \DB::table('files')
         ->where('basename', $data)
-        ->get('votes');
+        ->get();
     return view('video', ['video' => $data, 'votes' => $votes]);
 }
 

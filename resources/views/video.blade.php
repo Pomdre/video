@@ -16,12 +16,12 @@
   
   @foreach($votes as $key => $data)
   <p class="text-light">Votes: {{$data->votes}}</p>
-  @endforeach
   <form action="{{url('vote')}}?file={{$video}}" method="post">
     @csrf
    <input type="text" name="vote" placeholder="Vote +1" disabled />
    <input type="submit">
    </form>
-
+   <p class="text-light">ID: {{$data->id}}</p>
+   @endforeach
 </body>
 </html>
