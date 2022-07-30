@@ -14,8 +14,8 @@
 </head>
 <body style="background-color: black">
 <div class="container">
-  <a href="./sort"><button>Sort by votes</button></a>
   <div class="row">
+    <a href="./"><button>Back</button></a>
 @foreach($static as $data)
    <div class="col-md-10">
     {{-- <a href="view?file={{$data->basename}}"><img class="img-fluid static" src="storage/static/{{$data->static}}"></a>

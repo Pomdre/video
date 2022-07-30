@@ -10,8 +10,12 @@ class main extends Controller
 
 function main() {
         $data = \DB::table('files')->inRandomOrder()->limit(20)->get();
-        return view('main', ['static' => $data]);
-        
+        return view('main', ['static' => $data]);   
+}
+
+function sort() {
+    $data = \DB::table('files')->orderBy('votes', 'desc')->limit(20)->get();
+    return view('sort', ['static' => $data]);   
 }
 
 function video(Request $request) {
