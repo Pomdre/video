@@ -16,6 +16,18 @@ function main() {
 
 function video(Request $request) {
     $data = $request->input('file');
-    return view('video', ['video' => $data]);
+    $votes = \DB::table('files')
+        ->where('basename', $data)
+        ->get('votes');
+    return view('video', ['video' => $data, 'votes' => $votes]);
 }
+
+function vote(Request $request) {
+    $data = $request->input('file');
+    \DB::table('files')
+            ->where('basename', $data)
+            ->increment('votes', 1);
+    return redirect()->back();
+}
+
 }
