@@ -19,7 +19,7 @@ function sort() {
 }
 
 function all() {
-    $data = \DB::table('files')->inRandomOrder()->get();
+    $data = \DB::table('files')->get();
     return view('all', ['static' => $data]);   
 }
 
