@@ -1,0 +1,12 @@
+body {
+    background: #1a1a1a;
+}
+  
+.static {
+    position:absolute;
+    background: white;
+}
+  
+.static:hover {
+    opacity:0;
+}
