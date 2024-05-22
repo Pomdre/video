@@ -19,7 +19,7 @@ function sort() {
 }
 
 function all() {
-    $data = \DB::table('files')->orderBy('updated_at', 'desc')->get();
+    $data = \DB::table('files')->orderBy('id', 'desc')->get();
     return view('all', ['static' => $data]);   
 }
 
