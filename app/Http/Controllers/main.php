@@ -58,6 +58,16 @@ function person(Request $request) {
     return view('person', ['static' => $data, 'person' => $person, 'people' => $people]);
 }
 
+function people() {
+    $people = \DB::table('people')
+        ->leftJoin('file_person', 'people.id', '=', 'file_person.person_id')
+        ->select('people.*', \DB::raw('COUNT(file_person.file_id) as video_count'))
+        ->groupBy('people.id', 'people.name', 'people.face_encoding', 'people.thumbnail', 'people.created_at', 'people.updated_at')
+        ->orderByDesc('video_count')
+        ->get();
+    return view('people', ['people' => $people]);
+}
+
 function renamePerson(Request $request) {
     $personId = $request->input('id');
     $name = $request->input('name');

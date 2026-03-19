@@ -16,6 +16,7 @@
     <div class="my-3">
       <a href="./" class="btn btn-primary">Go Back</a>
       <a href="./sort" class="btn btn-primary">Sort by votes</a>
+      <a href="./people" class="btn btn-outline-warning">People</a>
     </div>
     @if(isset($people) && count($people) > 0)
     <div class="my-3">
