@@ -34,7 +34,7 @@ def get_db_connection():
             line = line.strip()
             if '=' in line and not line.startswith('#'):
                 key, _, value = line.partition('=')
-                env[key.strip()] = value.strip()
+                env[key.strip()] = value.strip().strip('"').strip("'")
 
     return mysql.connector.connect(
         host=env.get('DB_HOST', '127.0.0.1'),
