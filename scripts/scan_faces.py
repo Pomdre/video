@@ -36,13 +36,21 @@ def get_db_connection():
                 key, _, value = line.partition('=')
                 env[key.strip()] = value.strip().strip('"').strip("'")
 
-    return mysql.connector.connect(
-        host=env.get('DB_HOST', '127.0.0.1'),
-        port=int(env.get('DB_PORT', 3306)),
-        user=env.get('DB_USERNAME', 'video'),
-        password=env.get('DB_PASSWORD', 'video'),
-        database=env.get('DB_DATABASE', 'video'),
-    )
+    conn_args = {
+        'user': env.get('DB_USERNAME', 'video'),
+        'password': env.get('DB_PASSWORD', 'video'),
+        'database': env.get('DB_DATABASE', 'video'),
+    }
+
+    # Use unix socket if DB_SOCKET is set, otherwise use TCP host/port
+    socket_path = env.get('DB_SOCKET', '')
+    if socket_path:
+        conn_args['unix_socket'] = socket_path
+    else:
+        conn_args['host'] = env.get('DB_HOST', '127.0.0.1')
+        conn_args['port'] = int(env.get('DB_PORT', 3306))
+
+    return mysql.connector.connect(**conn_args)
 
 
 def extract_frames(video_path, num_frames=5):
