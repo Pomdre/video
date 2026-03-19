@@ -10,17 +10,20 @@ class main extends Controller
 
 function main() {
         $data = \DB::table('files')->inRandomOrder()->limit(20)->get();
-        return view('main', ['static' => $data]);   
+        $people = \DB::table('people')->orderBy('name')->get();
+        return view('main', ['static' => $data, 'people' => $people]);
 }
 
 function sort() {
     $data = \DB::table('files')->orderBy('votes', 'desc')->limit(20)->get();
-    return view('sort', ['static' => $data]);   
+    $people = \DB::table('people')->orderBy('name')->get();
+    return view('sort', ['static' => $data, 'people' => $people]);
 }
 
 function all() {
     $data = \DB::table('files')->orderBy('id', 'desc')->get();
-    return view('all', ['static' => $data]);   
+    $people = \DB::table('people')->orderBy('name')->get();
+    return view('all', ['static' => $data, 'people' => $people]);
 }
 
 function video(Request $request) {
@@ -36,6 +39,31 @@ function vote(Request $request) {
     \DB::table('files')
             ->where('basename', $data)
             ->increment('votes', 1);
+    return redirect()->back();
+}
+
+function person(Request $request) {
+    $personId = $request->input('id');
+    $person = \DB::table('people')->where('id', $personId)->first();
+    if (!$person) {
+        return redirect('/');
+    }
+    $data = \DB::table('files')
+        ->join('file_person', 'files.id', '=', 'file_person.file_id')
+        ->where('file_person.person_id', $personId)
+        ->orderBy('files.id', 'desc')
+        ->select('files.*')
+        ->get();
+    $people = \DB::table('people')->orderBy('name')->get();
+    return view('person', ['static' => $data, 'person' => $person, 'people' => $people]);
+}
+
+function renamePerson(Request $request) {
+    $personId = $request->input('id');
+    $name = $request->input('name');
+    \DB::table('people')
+        ->where('id', $personId)
+        ->update(['name' => $name]);
     return redirect()->back();
 }
 

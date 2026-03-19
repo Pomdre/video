@@ -17,6 +17,21 @@
       <a href="./sort" class="btn btn-primary">Sort by votes</a>
       <a href="./all" class="btn btn-secondary">All</a>
     </div>
+    @if(isset($people) && count($people) > 0)
+    <div class="my-3">
+      <div class="d-flex flex-wrap gap-2 align-items-center">
+        <span class="text-muted">People:</span>
+        @foreach($people as $p)
+          <a href="/person?id={{$p->id}}" class="btn btn-sm btn-outline-light">
+            @if($p->thumbnail)
+              <img src="storage/faces/{{$p->thumbnail}}" style="width:24px;height:24px;border-radius:50%;object-fit:cover;" class="me-1">
+            @endif
+            {{ $p->name ?? 'Person #'.$p->id }}
+          </a>
+        @endforeach
+      </div>
+    </div>
+    @endif
     <div class="row">
       @foreach($static as $data)
         <div class="col-12 col-md-6 mb-4">

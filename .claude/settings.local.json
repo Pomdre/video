@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "WebFetch(domain:documenter.getpostman.com)",
+      "WebFetch(domain:nowpayments.io)",
+      "WebFetch(domain:docs.nowpayments.io)"
+    ]
+  }
+}

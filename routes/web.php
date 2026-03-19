@@ -33,3 +33,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/view', 'App\Http\Controll
 
 Route::middleware(['auth:sanctum', 'verified'])->post('/vote', 'App\Http\Controllers\main@vote', function () {
 });
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/person', 'App\Http\Controllers\main@person', function () {
+    return view('person');
+})->name('person');
+
+Route::middleware(['auth:sanctum', 'verified'])->post('/person/rename', 'App\Http\Controllers\main@renamePerson', function () {
+});
