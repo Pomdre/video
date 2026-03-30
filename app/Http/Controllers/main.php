@@ -9,12 +9,12 @@ class main extends Controller
 {
 
 function main() {
-        $data = \DB::table('files')->inRandomOrder()->limit(5)->get();
+        $data = \DB::table('files')->inRandomOrder()->limit(15)->get();
         return view('main', ['static' => $data]);
 }
 
 function loadMore() {
-    $data = \DB::table('files')->inRandomOrder()->limit(5)->get();
+    $data = \DB::table('files')->inRandomOrder()->limit(15)->get();
     return response()->json($data);
 }
 

@@ -185,22 +185,41 @@ def scan_videos(video_dir, tolerance=0.6, num_frames=5):
 
         print(f"  Found {len(all_encodings)} face(s) across {len(frames)} frames")
 
-        # Match each face encoding to existing people or create new ones
+        # Step 1: Cluster faces within this video so the same person
+        # seen in multiple frames counts only once.
+        clusters = []  # list of { 'encodings': [...], 'best_idx': int }
+        for i, encoding in enumerate(all_encodings):
+            matched_cluster = None
+            for cluster in clusters:
+                avg_enc = np.mean(cluster['encodings'], axis=0)
+                dist = face_recognition.face_distance([avg_enc], encoding)[0]
+                if dist <= tolerance:
+                    matched_cluster = cluster
+                    break
+            if matched_cluster is not None:
+                matched_cluster['encodings'].append(encoding)
+            else:
+                clusters.append({'encodings': [encoding], 'best_idx': i})
+
+        print(f"  Clustered into {len(clusters)} unique person(s)")
+
+        # Step 2: Match each cluster against known people or create new ones
         matched_person_ids = set()
 
-        for i, encoding in enumerate(all_encodings):
+        for cluster in clusters:
+            avg_encoding = np.mean(cluster['encodings'], axis=0)
             best_match_id = None
 
             if existing_people:
                 known_encodings = [p['encoding'] for p in existing_people]
-                distances = face_recognition.face_distance(known_encodings, encoding)
+                distances = face_recognition.face_distance(known_encodings, avg_encoding)
                 min_idx = np.argmin(distances)
                 if distances[min_idx] <= tolerance:
                     best_match_id = existing_people[min_idx]['id']
 
             if best_match_id is None:
-                # New person
-                encoding_json = json.dumps(encoding.tolist())
+                # New person — use the average encoding for better future matching
+                encoding_json = json.dumps(avg_encoding.tolist())
                 cursor.execute(
                     "INSERT INTO people (name, face_encoding, created_at, updated_at) VALUES (%s, %s, NOW(), NOW())",
                     (None, encoding_json)
@@ -208,10 +227,11 @@ def scan_videos(video_dir, tolerance=0.6, num_frames=5):
                 conn.commit()
                 new_person_id = cursor.lastrowid
 
-                # Save thumbnail
-                frame = frames[all_frame_indices[i]]
+                # Save thumbnail from the first face in this cluster
+                idx = cluster['best_idx']
+                frame = frames[all_frame_indices[idx]]
                 thumb_filename = save_face_thumbnail(
-                    frame, all_locations[i], new_person_id, str(thumbnail_dir)
+                    frame, all_locations[idx], new_person_id, str(thumbnail_dir)
                 )
                 cursor.execute(
                     "UPDATE people SET thumbnail = %s WHERE id = %s",
@@ -219,7 +239,7 @@ def scan_videos(video_dir, tolerance=0.6, num_frames=5):
                 )
                 conn.commit()
 
-                existing_people.append({'id': new_person_id, 'encoding': encoding})
+                existing_people.append({'id': new_person_id, 'encoding': avg_encoding})
                 best_match_id = new_person_id
                 new_faces_found += 1
                 print(f"  New person created: id={new_person_id}")
