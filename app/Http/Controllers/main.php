@@ -9,9 +9,13 @@ class main extends Controller
 {
 
 function main() {
-        $data = \DB::table('files')->inRandomOrder()->limit(20)->get();
-        $people = \DB::table('people')->orderBy('name')->get();
-        return view('main', ['static' => $data, 'people' => $people]);
+        $data = \DB::table('files')->inRandomOrder()->limit(5)->get();
+        return view('main', ['static' => $data]);
+}
+
+function loadMore() {
+    $data = \DB::table('files')->inRandomOrder()->limit(5)->get();
+    return response()->json($data);
 }
 
 function sort() {

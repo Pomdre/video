@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="storage/css/main.css">
     <link rel="stylesheet" href="https://unpkg.com/freezeframe@3.0.10/build/css/freezeframe_styles.min.css">
     <script type="text/javascript" src="https://unpkg.com/freezeframe@3.0.10/build/js/freezeframe.pkgd.min.js"></script>
@@ -18,39 +17,65 @@
       <a href="./all" class="btn btn-secondary">All</a>
       <a href="./people" class="btn btn-outline-warning">People</a>
     </div>
-    @if(isset($people) && count($people) > 0)
-    <div class="my-3">
-      <div class="d-flex flex-wrap gap-2 align-items-center">
-        <span class="text-muted">People:</span>
-        @foreach($people as $p)
-          <a href="/person?id={{$p->id}}" class="btn btn-sm btn-outline-light">
-            @if($p->thumbnail)
-              <img src="storage/faces/{{$p->thumbnail}}" style="width:24px;height:24px;border-radius:50%;object-fit:cover;" class="me-1">
-            @endif
-            {{ $p->name ?? 'Person #'.$p->id }}
-          </a>
-        @endforeach
-      </div>
-    </div>
-    @endif
-    <div class="row">
+    <div class="row" id="video-grid">
       @foreach($static as $data)
         <div class="col-12 col-md-6 mb-4">
-          {{-- <a href="view?file={{$data->basename}}"><img class="img-fluid static" src="storage/static/{{$data->static}}"></a>
-          <img class="img-fluid active" src="storage/gif/{{$data->gif}}"> --}}
-          <img class="freezeframe freezeframe-responsive img-fluid" src="storage/gif/{{"$data->gif"}}" />
-          <a class="d-block text-right mt-2 text-white" href="view?file={{$data->basename}}">Vis</a>
+          <img class="freezeframe freezeframe-responsive img-fluid" src="storage/gif/{{ $data->gif }}" />
+          <a class="d-block text-right mt-2 text-white" href="view?file={{ $data->basename }}">Vis</a>
         </div>
       @endforeach
     </div>
-    <div class="mt-3">
-      <button class="btn btn-warning float-right""><a href="./">Reolad site</a></button>
+    <div id="loading" class="text-center my-4" style="display:none;">
+      <div class="spinner-border text-light" role="status"></div>
     </div>
   </div>
-</body>
-<script>$(function() {
-  ff = new freezeframe().freeze();
-})
+<script>
+(function() {
+  var ff = new freezeframe().freeze();
+  var loading = false;
+  var grid = document.getElementById('video-grid');
+  var spinner = document.getElementById('loading');
+
+  function loadMore() {
+    if (loading) return;
+    loading = true;
+    spinner.style.display = 'block';
+
+    fetch('/api/videos', {
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(videos) {
+      videos.forEach(function(v) {
+        var col = document.createElement('div');
+        col.className = 'col-12 col-md-6 mb-4';
+        var img = document.createElement('img');
+        img.className = 'freezeframe freezeframe-responsive img-fluid';
+        img.src = 'storage/gif/' + v.gif;
+        var link = document.createElement('a');
+        link.className = 'd-block text-right mt-2 text-white';
+        link.href = 'view?file=' + v.basename;
+        link.textContent = 'Vis';
+        col.appendChild(img);
+        col.appendChild(link);
+        grid.appendChild(col);
+        new freezeframe(img).freeze();
+      });
+      loading = false;
+      spinner.style.display = 'none';
+    })
+    .catch(function() {
+      loading = false;
+      spinner.style.display = 'none';
+    });
+  }
+
+  window.addEventListener('scroll', function() {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
+      loadMore();
+    }
+  });
+})();
 </script>
 </body>
 </html>

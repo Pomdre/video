@@ -19,6 +19,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/', 'App\Http\Controllers\
     return redirect('/');
 })->name('main');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/api/videos', 'App\Http\Controllers\main@loadMore');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/sort', 'App\Http\Controllers\main@sort', function () {
     return view('sort');
 })->name('sort');
